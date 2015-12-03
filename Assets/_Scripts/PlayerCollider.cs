@@ -19,11 +19,11 @@ public class PlayerCollider : MonoBehaviour {
 	public int  scoreValue = 0;
 	public int  livesValue = 3;
 
-	private bool endGame;
+    private bool restart;
 	
 	// Use this for initialization
 	void Start () {
-		endGame = false;
+        restart = false;
 		this._SetScore ();
 		this.gameOverLabel.enabled = false; // Hides end game text 
 		this.finalScoreLabel.enabled = false;
@@ -32,13 +32,13 @@ public class PlayerCollider : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-		if (endGame = true) {
-			if (Input.GetKeyDown (KeyCode.R)) {
-				Application.LoadLevel(Application.loadedLevel);
-			}
+	if(restart == true)
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+            Application.LoadLevel(Application.loadedLevel);
+            }
 		}
-	
 	}
 
 	void OnTriggerEnter2D(Collider2D otherGameObject) {
@@ -54,7 +54,6 @@ public class PlayerCollider : MonoBehaviour {
 
 		if (otherGameObject.tag == "Death") {
 			this._EndGame();
-
 		}
 		this._SetScore ();
 	}
@@ -63,8 +62,8 @@ public class PlayerCollider : MonoBehaviour {
 	{
 
 		if (otherGameObject.gameObject.CompareTag ("Snake")) {
-			this.livesValue -= 1; // remove one life
-			if(this.livesValue >= 0) {
+			this.livesValue--; // remove one life
+			if(this.livesValue <= 0) {
 				
 				this._EndGame();
 			}
@@ -82,18 +81,13 @@ public class PlayerCollider : MonoBehaviour {
 	private void _EndGame() {
 		Destroy(gameObject);
 
-
-		endGame = true;
 		this.scoreLabel.enabled = false;
 		this.livesLabel.enabled = false;
 		this.gameOverLabel.enabled = true; // Makes game over, final score, restart text appear when game ends 
 		this.finalScoreLabel.enabled = true;
 		this.restartLabel.enabled = true;
-		this.finalScoreLabel.text = "Score: " + this.scoreValue;
+		this.finalScoreLabel.text = "Final Score: " + this.scoreValue;
 
-		
-		
-		
 	}
 
 

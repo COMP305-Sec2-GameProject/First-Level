@@ -8,9 +8,11 @@ using System.Collections;
 
 public class SpawnEnemy : MonoBehaviour {
 	
-	public Transform[] enemySpawns;
-	public GameObject enemy;
-	
+	public Transform[] snakeSpawns;
+	public GameObject snake;
+
+    public Transform[] wolfSpawns;
+    public GameObject wolves;
 	// Use this for initialization
 	void Start () {
 		
@@ -19,12 +21,14 @@ public class SpawnEnemy : MonoBehaviour {
 	
 	void Spawn()
 	{
-		for (int i = 0; i < enemySpawns.Length; i++)
+		for (int i = 0; i < snakeSpawns.Length; i++)
 		{
-			int enemyFlip = Random.Range (0, 2);
-			if (enemyFlip > 0)
-				Instantiate(enemy, enemySpawns[i].position, Quaternion.identity);
+				Instantiate(snake, snakeSpawns[i].position, Quaternion.identity);
 		}
+        for (int i = 0; i < wolfSpawns.Length; i++)
+        {
+            Instantiate(wolves, wolfSpawns[i].position, Quaternion.identity);
+        }
 	}
 	
 }
