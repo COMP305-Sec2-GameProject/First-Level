@@ -71,18 +71,27 @@ public class EnemyController : MonoBehaviour {
             this._flip();
         }
 
+        if (otherCollider.gameObject.CompareTag("Wolf"))
+        {
+            this._flip();
+        }
+
         if (otherCollider.gameObject.CompareTag("Arrow"))
         {
             Destroy(otherCollider.gameObject);
             hit--;
             //enemy hit sound
-            if(hit <= 0 )
+            if (hit <= 0)
             {
                 this._enemyCollider.isTrigger = true; //so it doesn't check a collision with collision2d - colliding with the player after being hit, let the death animatoin play-out before destroying enemy object
                 speed = 0f;
                 this._animator.SetInteger("AnimState", 1); // play death animation
                 //enemy death sou
-                Destroy(gameObject,0.8f);
+                Destroy(gameObject, 0.8f);
+            }
+            else
+            {   
+                this._animator.SetInteger("AnimState", 2); // play hit animation
             }
         }
 

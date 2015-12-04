@@ -72,11 +72,18 @@ public class PlayerCollider : MonoBehaviour {
 		if (otherGameObject.gameObject.CompareTag ("Snake")) {
 			this.livesValue--; // remove one life
 			if(this.livesValue <= 0) {
-				
 				this._EndGame();
 			}
 		}
 
+        if (otherGameObject.gameObject.CompareTag("Wolf"))
+        {
+            this.livesValue--; // remove one life
+            if (this.livesValue <= 0)
+            {
+                this._EndGame();
+            }
+        }
 		this._SetScore ();
 	}
 

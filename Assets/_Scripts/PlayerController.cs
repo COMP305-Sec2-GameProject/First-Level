@@ -56,11 +56,18 @@ public class PlayerController : MonoBehaviour {
 	private float _movingValue = 0;
 	private bool _isFacingRight = true;
 	private bool _isGrounded =true;
+    
+    private SpriteRenderer _portalSprite;
+    private BoxCollider2D _portalCollider;
 
-
-
-
-
+    void Awake()
+    {
+        Instantiate(portal, portalSpawn.position, portalSpawn.rotation);//instantiate the game object shot per frame at a held key press, set at a vector3 position, at a set quaternion euler (rotation)
+        _portalSprite = portal.GetComponent<SpriteRenderer>();
+        _portalCollider = portal.GetComponent<BoxCollider2D>();
+        _portalSprite.enabled = false;
+        _portalCollider.enabled = false;
+    }
 	// Use this for initialization
 	void Start () {
 		this._rigidBody2D = gameObject.GetComponent<Rigidbody2D> ();
@@ -78,15 +85,14 @@ public class PlayerController : MonoBehaviour {
 
         this.coinCountLabel.text = "Coins for Portal: " + this.coinCount + "/20";
         
-        Instantiate(portal, portalSpawn.position, portalSpawn.rotation);//instantiate the game object shot per frame at a held key press, set at a vector3 position, at a set quaternion euler (rotation)
 	}
     void Update()
     {
-        if (coinCount == 5)
+        if(coinCount >= 4)
         {
-            
-            portal.SetActive(false);
-            
+            this.coinCountLabel.color = Color.blue;
+            _portalSprite.enabled = true;
+            _portalCollider.enabled = true;
         }
     }
 	// Update is called once per frame
@@ -201,9 +207,12 @@ public class PlayerController : MonoBehaviour {
 		if (otherGameObject.gameObject.CompareTag ("Snake")) {
 			this._animator.SetInteger("AnimState", 2);
 			this._hitSound.Play (); //play hit sound
-			
-			
 		}
+        if (otherGameObject.gameObject.CompareTag("Wolf"))
+        {
+            this._animator.SetInteger("AnimState", 2);
+            this._hitSound.Play(); //play hit sound
+        }
 	}
 
 

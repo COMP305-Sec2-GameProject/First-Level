@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 038f5f8b378352e47864b2074e7a2bd3
-timeCreated: 1449207616
+timeCreated: 1449239985
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -63,7 +63,7 @@ TextureImporter:
         serializedVersion: 2
         x: 102
         y: 0
-        width: 149
+        width: 219
         height: 143
       alignment: 0
       pivot: {x: .5, y: .5}
@@ -73,7 +73,7 @@ TextureImporter:
         serializedVersion: 2
         x: 358
         y: 0
-        width: 149
+        width: 219
         height: 143
       alignment: 0
       pivot: {x: .5, y: .5}
@@ -83,18 +83,8 @@ TextureImporter:
         serializedVersion: 2
         x: 615
         y: 0
-        width: 149
+        width: 219
         height: 143
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Enemy2Die_3
-      rect:
-        serializedVersion: 2
-        x: 870
-        y: 0
-        width: 149
-        height: 142
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -103,8 +93,8 @@ TextureImporter:
         serializedVersion: 2
         x: 1028
         y: 0
-        width: 207
-        height: 90
+        width: 219
+        height: 143
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -113,8 +103,8 @@ TextureImporter:
         serializedVersion: 2
         x: 1277
         y: 0
-        width: 211
-        height: 76
+        width: 219
+        height: 143
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,7 +114,7 @@ TextureImporter:
         x: 1524
         y: 0
         width: 219
-        height: 58
+        height: 143
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -133,8 +123,8 @@ TextureImporter:
         serializedVersion: 2
         x: 1798
         y: 0
-        width: 199
-        height: 58
+        width: 219
+        height: 143
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
