@@ -14,13 +14,15 @@ public class PlayerCollider : MonoBehaviour {
 	public Text scoreLabel;
 	public Text livesLabel;
 	public Text gameOverLabel;
+    public Text winLabel;
 	public Text finalScoreLabel;
 	public Text restartLabel;
 	public int  scoreValue = 0;
 	public int  livesValue = 3;
 
     private bool restart;
-	
+    //private Animator _animator;
+
 	// Use this for initialization
 	void Start () {
         restart = false;
@@ -28,11 +30,13 @@ public class PlayerCollider : MonoBehaviour {
 		this.gameOverLabel.enabled = false; // Hides end game text 
 		this.finalScoreLabel.enabled = false;
 		this.restartLabel.enabled = false;
+        this.winLabel.enabled = false;
+        //this._animator = gameObject.GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	if(restart == true)
+	if(restart)
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
@@ -55,6 +59,10 @@ public class PlayerCollider : MonoBehaviour {
 		if (otherGameObject.tag == "Death") {
 			this._EndGame();
 		}
+        if(otherGameObject.tag == "Portal")
+        {
+            this._WinGame();
+        }
 		this._SetScore ();
 	}
 
@@ -90,6 +98,18 @@ public class PlayerCollider : MonoBehaviour {
 
 	}
 
+    private void _WinGame()
+    {
+        Destroy(gameObject);
+
+        this.scoreLabel.enabled = false;
+        this.livesLabel.enabled = false;
+        this.winLabel.enabled = true; // Makes game over, final score, restart text appear when game ends 
+        this.finalScoreLabel.enabled = true;
+        this.restartLabel.enabled = true;
+        this.finalScoreLabel.text = "Final Score: " + this.scoreValue;
+
+    }
 
 
 }

@@ -5,19 +5,19 @@ public class EnemyController : MonoBehaviour {
 
     // PUBLIC INSTANCE VARIABLES
     public float speed = 100f;
+    public int hit;
+
     //public Transform sightStart;
     public Transform sightEnd;
 
     //public GameObject shot;
     //public Transform shotSpawn; //this variable is a refernece of the game object Shot Spawn but the variable type only references its transform component
-    public float fireRate; // = 0.25 --> shoots 4 times a second --> 1/0.25
-    private float nextFire; // = 0 
 
     // PRIVATE INSTANCE VARIABLES
     private Rigidbody2D _rigidbody2D;
     private Transform _transform;
     private Animator _animator;
-
+    private PolygonCollider2D _enemyCollider;
     private bool _isGrounded = false;
     private bool _isGroundAhead = true;
 
@@ -27,6 +27,8 @@ public class EnemyController : MonoBehaviour {
         this._rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
         this._transform = gameObject.GetComponent<Transform>();
         this._animator = gameObject.GetComponent<Animator>();
+        this._enemyCollider = gameObject.GetComponent<PolygonCollider2D>();
+
     }
 
     void Update()
@@ -68,6 +70,22 @@ public class EnemyController : MonoBehaviour {
         {
             this._flip();
         }
+
+        if (otherCollider.gameObject.CompareTag("Arrow"))
+        {
+            Destroy(otherCollider.gameObject);
+            hit--;
+            //enemy hit sound
+            if(hit <= 0 )
+            {
+                this._enemyCollider.isTrigger = true; //so it doesn't check a collision with collision2d - colliding with the player after being hit, let the death animatoin play-out before destroying enemy object
+                speed = 0f;
+                this._animator.SetInteger("AnimState", 1); // play death animation
+                //enemy death sou
+                Destroy(gameObject,0.8f);
+            }
+        }
+
     }
 
     void OnCollisionStay2D(Collision2D otherCollider)
@@ -78,7 +96,23 @@ public class EnemyController : MonoBehaviour {
         }
     }
 
+    void OnTriggerStay2D(Collider2D otherCollider)
+    {
+        if (otherCollider.gameObject.CompareTag("Platform"))
+        {
+            this._isGrounded = true;
+        }
+    }
+
     void OnCollisionExit2D(Collision2D otherCollider)
+    {
+        if (otherCollider.gameObject.CompareTag("Platform"))
+        {
+            this._isGrounded = false;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D otherCollider)
     {
         if (otherCollider.gameObject.CompareTag("Platform"))
         {

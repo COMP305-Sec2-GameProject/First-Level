@@ -22,8 +22,6 @@ public class SpawnLife : MonoBehaviour {
 	{
 		for (int i = 0; i < lifeSpawns.Length; i++)
 		{
-			int lifeFlip = Random.Range (0, 2);
-			if (lifeFlip > 0)
 				Instantiate(life, lifeSpawns[i].position, Quaternion.identity);
 		}
 	}

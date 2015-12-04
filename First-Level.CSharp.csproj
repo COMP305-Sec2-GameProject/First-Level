@@ -71,10 +71,12 @@
     <Compile Include="Assets\_Scripts\CoinController.cs" />
     <Compile Include="Assets\_Scripts\DeathTrigger.cs" />
     <Compile Include="Assets\_Scripts\EnemyController.cs" />
+    <Compile Include="Assets\_Scripts\GoalController.cs" />
     <Compile Include="Assets\_Scripts\HeartController.cs" />
     <Compile Include="Assets\_Scripts\PlatformFall.cs" />
     <Compile Include="Assets\_Scripts\PlayerCollider.cs" />
     <Compile Include="Assets\_Scripts\PlayerController.cs" />
+    <Compile Include="Assets\_Scripts\ShotMover.cs" />
     <Compile Include="Assets\_Scripts\SmoothCamera2D.cs" />
     <Compile Include="Assets\_Scripts\SpawnCoins.cs" />
     <Compile Include="Assets\_Scripts\SpawnEnemy.cs" />
@@ -82,6 +84,7 @@
     <Compile Include="Assets\_Scripts\SpawnPlatformEnemy.cs" />
     <Compile Include="Assets\_Scripts\SpawnPlatformLife.cs" />
     <Compile Include="Assets\_Scripts\SpawnPlatforms.cs" />
+    <Compile Include="Assets\_Scripts\WallCollision.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>
