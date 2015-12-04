@@ -62,11 +62,12 @@ public class PlayerController : MonoBehaviour {
 
     void Awake()
     {
-        Instantiate(portal, portalSpawn.position, portalSpawn.rotation);//instantiate the game object shot per frame at a held key press, set at a vector3 position, at a set quaternion euler (rotation)
+        /*Instantiate(portal, portalSpawn.position, portalSpawn.rotation);//instantiate the game object shot per frame at a held key press, set at a vector3 position, at a set quaternion euler (rotation)
         _portalSprite = portal.GetComponent<SpriteRenderer>();
         _portalCollider = portal.GetComponent<BoxCollider2D>();
         _portalSprite.enabled = false;
-        _portalCollider.enabled = false;
+        _portalCollider.enabled = false;*/
+        this.portal.SetActive(false);
     }
 	// Use this for initialization
 	void Start () {
@@ -88,11 +89,13 @@ public class PlayerController : MonoBehaviour {
 	}
     void Update()
     {
-        if(coinCount >= 4)
+        if(this.coinCount >= 4)
         {
             this.coinCountLabel.color = Color.blue;
-            _portalSprite.enabled = true;
-            _portalCollider.enabled = true;
+            /*this._portalSprite.enabled = true;
+            this._portalCollider.enabled = true;*/
+            this.portal.SetActive(true);
+            Debug.Log(this.portal.activeInHierarchy);
         }
     }
 	// Update is called once per frame
