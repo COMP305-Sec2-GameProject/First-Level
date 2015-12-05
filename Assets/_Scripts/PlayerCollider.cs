@@ -39,7 +39,7 @@ public class PlayerCollider : MonoBehaviour {
 		this.restartLabel.enabled = false;
         this.winLabel.enabled = false;
 
-        this.finalScoreLabel.enabled = false;
+        this.finalTimeLabel.enabled = false;
         //this._animator = gameObject.GetComponent<Animator>();
 
         
@@ -90,7 +90,6 @@ public class PlayerCollider : MonoBehaviour {
 
 
 		if (otherGameObject.tag == "Death") {
-            bestTime = timer;
 			this._EndGame();
 		}
         if(otherGameObject.tag == "Portal")
@@ -107,7 +106,6 @@ public class PlayerCollider : MonoBehaviour {
 		if (otherGameObject.gameObject.CompareTag ("Snake")) {
 			this.livesValue--; // remove one life
 			if(this.livesValue <= 0) {
-                bestTime = timer;
 				this._EndGame();
 			}
 		}
@@ -117,7 +115,6 @@ public class PlayerCollider : MonoBehaviour {
             this.livesValue--; // remove one life
             if (this.livesValue <= 0)
             {
-                bestTime = timer;
                 this._EndGame();
             }
         }
@@ -140,8 +137,8 @@ public class PlayerCollider : MonoBehaviour {
 		this.restartLabel.enabled = true;
 		this.finalScoreLabel.text = "Final Score: " + this.scoreValue;
 
-        this.finalScoreLabel.enabled = true;
-        this.finalTimeLabel.text = "Time Left: " + String.Format("{0:0.000}", bestTime);
+        /*this.finalTimeLabel.text = "Time Left: " + String.Format("{0:0.000}", bestTime);
+        this.finalTimeLabel.enabled = true;*/
 
 	}
 
@@ -156,8 +153,8 @@ public class PlayerCollider : MonoBehaviour {
         this.restartLabel.enabled = true;
         this.finalScoreLabel.text = "Final Score: " + this.scoreValue;
 
-        this.finalScoreLabel.enabled = true;
         this.finalTimeLabel.text = "Best Time: " + String.Format("{0:0.000}", bestTime);
+        this.finalTimeLabel.enabled = true;
     }
 
 

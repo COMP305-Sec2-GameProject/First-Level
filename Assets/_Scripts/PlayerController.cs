@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour {
     public Transform portalSpawn;
 
     public Text coinCountLabel;
-    private int coinCount = 0;
+    public int coinCount = 0;
 
 	//PRIVATE INSTANCE VARIABLES
 	private Rigidbody2D _rigidBody2D;
