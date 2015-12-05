@@ -84,12 +84,12 @@ public class PlayerController : MonoBehaviour {
 		this._gameOverSound = this._audioSources [4];
         this._shoot = this._audioSources[5];
 
-        this.coinCountLabel.text = "Coins for Portal: " + this.coinCount + "/20";
+        this.coinCountLabel.text = "Coins for Portal: " + this.coinCount + "/45";
         
 	}
     void Update()
     {
-        if(this.coinCount >= 4)
+        if(this.coinCount >= 45)
         {
             this.coinCountLabel.color = Color.blue;
             /*this._portalSprite.enabled = true;
@@ -229,7 +229,7 @@ public class PlayerController : MonoBehaviour {
 
     public void setCoinCount()
     {
-           this.coinCountLabel.text = "Coins for Portal: " + this.coinCount + "/20";
+           this.coinCountLabel.text = "Coins to Unlock Portal: " + this.coinCount + "/45";
     }
 	//flips player sprite
 	private void _flip(){

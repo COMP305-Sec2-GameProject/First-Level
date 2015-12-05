@@ -6,6 +6,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
 
 public class PlayerCollider : MonoBehaviour {
@@ -21,6 +22,12 @@ public class PlayerCollider : MonoBehaviour {
 	public int  livesValue = 3;
 
     private bool restart;
+
+    public Text timerLabel;
+    public Text finalTimeLabel;
+    public float timer;
+    [HideInInspector]
+    public float bestTime;
     //private Animator _animator;
 
 	// Use this for initialization
@@ -31,18 +38,44 @@ public class PlayerCollider : MonoBehaviour {
 		this.finalScoreLabel.enabled = false;
 		this.restartLabel.enabled = false;
         this.winLabel.enabled = false;
+
+        this.finalScoreLabel.enabled = false;
         //this._animator = gameObject.GetComponent<Animator>();
+
+        
 	}
-	
+    public void Timer() // method to update to the current score upon killing enemies or picking up Gold and Silver coins
+    {
+        this.timerLabel.text = String.Format("{0:0}", timer); // label equals this string statement - score is concatenated to string for display
+
+        if (timer <= 5f)
+        {
+            this.timerLabel.color = Color.red;
+        }
+        if (timer <= 0)
+        {
+            bestTime = timer;
+            this._EndGame();
+        }
+    }
 	// Update is called once per frame
 	void Update () {
-	if(restart)
-        {
+	        if(restart)
+            {
             if (Input.GetKeyDown(KeyCode.R))
             {
             Application.LoadLevel(Application.loadedLevel);
             }
-		}
+		    }
+
+    timer -= Time.deltaTime;
+
+    /*if (timer <= 175f)
+    {
+        this.titleLabel.enabled = false;
+        this.instructLabel.enabled = false;
+    }*/
+    this.Timer();
 	}
 
 	void OnTriggerEnter2D(Collider2D otherGameObject) {
@@ -57,10 +90,12 @@ public class PlayerCollider : MonoBehaviour {
 
 
 		if (otherGameObject.tag == "Death") {
+            bestTime = timer;
 			this._EndGame();
 		}
         if(otherGameObject.tag == "Portal")
         {
+            bestTime = timer;
             this._WinGame();
         }
 		this._SetScore ();
@@ -72,6 +107,7 @@ public class PlayerCollider : MonoBehaviour {
 		if (otherGameObject.gameObject.CompareTag ("Snake")) {
 			this.livesValue--; // remove one life
 			if(this.livesValue <= 0) {
+                bestTime = timer;
 				this._EndGame();
 			}
 		}
@@ -81,6 +117,7 @@ public class PlayerCollider : MonoBehaviour {
             this.livesValue--; // remove one life
             if (this.livesValue <= 0)
             {
+                bestTime = timer;
                 this._EndGame();
             }
         }
@@ -103,6 +140,9 @@ public class PlayerCollider : MonoBehaviour {
 		this.restartLabel.enabled = true;
 		this.finalScoreLabel.text = "Final Score: " + this.scoreValue;
 
+        this.finalScoreLabel.enabled = true;
+        this.finalTimeLabel.text = "Time Left: " + String.Format("{0:0.000}", bestTime);
+
 	}
 
     private void _WinGame()
@@ -116,6 +156,8 @@ public class PlayerCollider : MonoBehaviour {
         this.restartLabel.enabled = true;
         this.finalScoreLabel.text = "Final Score: " + this.scoreValue;
 
+        this.finalScoreLabel.enabled = true;
+        this.finalTimeLabel.text = "Best Time: " + String.Format("{0:0.000}", bestTime);
     }
 
 
