@@ -57,8 +57,8 @@ public class PlayerController : MonoBehaviour {
 	private bool _isFacingRight = true;
 	private bool _isGrounded =true;
     
-    private SpriteRenderer _portalSprite;
-    private BoxCollider2D _portalCollider;
+    /*private SpriteRenderer _portalSprite;
+    private BoxCollider2D _portalCollider;*/
 
     void Awake()
     {
@@ -95,6 +95,7 @@ public class PlayerController : MonoBehaviour {
             /*this._portalSprite.enabled = true;
             this._portalCollider.enabled = true;*/
             this.portal.SetActive(true);
+            this.portal.GetComponent<AudioSource>().Play();
             Debug.Log(this.portal.activeInHierarchy);
         }
     }

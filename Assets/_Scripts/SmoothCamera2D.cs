@@ -11,14 +11,14 @@ public class SmoothCamera2D : MonoBehaviour {
 	public float dampTime = 0.15f;
 	private Vector3 velocity = Vector3.zero;
 	public Transform target;
-	
+
+    void Start()
+    {
+        target = GameObject.FindWithTag("Player").transform;
+    }
 	// Update is called once per frame
 	void Update () 
 	{
-		if (Input.GetKeyDown (KeyCode.R)) {
-			Application.LoadLevel(Application.loadedLevel);
-		}
-
 	// Follows transform of player
 		if (target)
 		{

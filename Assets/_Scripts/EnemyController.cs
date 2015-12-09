@@ -21,6 +21,10 @@ public class EnemyController : MonoBehaviour {
     private bool _isGrounded = false;
     private bool _isGroundAhead = true;
 
+    private AudioSource[] _audioSources;
+    private AudioSource _hit;
+    private AudioSource _death;
+
     // Use this for initialization
     void Start()
     {
@@ -29,6 +33,9 @@ public class EnemyController : MonoBehaviour {
         this._animator = gameObject.GetComponent<Animator>();
         this._enemyCollider = gameObject.GetComponent<PolygonCollider2D>();
 
+        this._audioSources = gameObject.GetComponents<AudioSource>();
+        this._hit = this._audioSources[0];
+        this._death = this._audioSources[1];
     }
 
     void Update()
@@ -83,14 +90,15 @@ public class EnemyController : MonoBehaviour {
             //enemy hit sound
             if (hit <= 0)
             {
+                this._death.Play();
                 this._enemyCollider.isTrigger = true; //so it doesn't check a collision with collision2d - colliding with the player after being hit, let the death animatoin play-out before destroying enemy object
                 speed = 0f;
                 this._animator.SetInteger("AnimState", 1); // play death animation
-                //enemy death sou
                 Destroy(gameObject, 0.8f);
             }
             else
-            {   
+            {
+                this._hit.Play();
                 this._animator.SetInteger("AnimState", 2); // play hit animation
             }
         }

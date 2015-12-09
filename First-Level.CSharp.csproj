@@ -51,17 +51,11 @@
     <Reference Include="UnityEngine">
       <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Advertisements">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Analytics">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
@@ -77,8 +71,11 @@
     <Compile Include="Assets\_Scripts\CoinController.cs" />
     <Compile Include="Assets\_Scripts\DeathTrigger.cs" />
     <Compile Include="Assets\_Scripts\EnemyController.cs" />
+    <Compile Include="Assets\_Scripts\GameOverController.cs" />
     <Compile Include="Assets\_Scripts\GoalController.cs" />
     <Compile Include="Assets\_Scripts\HeartController.cs" />
+    <Compile Include="Assets\_Scripts\HighScoreController.cs" />
+    <Compile Include="Assets\_Scripts\MenuController.cs" />
     <Compile Include="Assets\_Scripts\PlatformFall.cs" />
     <Compile Include="Assets\_Scripts\PlayerCollider.cs" />
     <Compile Include="Assets\_Scripts\PlayerController.cs" />
@@ -91,6 +88,7 @@
     <Compile Include="Assets\_Scripts\SpawnPlatformLife.cs" />
     <Compile Include="Assets\_Scripts\SpawnPlatforms.cs" />
     <Compile Include="Assets\_Scripts\WallCollision.cs" />
+    <Compile Include="Assets\_Scripts\WinController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>

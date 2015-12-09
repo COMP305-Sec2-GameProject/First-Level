@@ -18,30 +18,67 @@ public class PlayerCollider : MonoBehaviour {
     public Text winLabel;
 	public Text finalScoreLabel;
 	public Text restartLabel;
-	public int  scoreValue = 0;
-	public int  livesValue = 3;
-
+	public int  scoreValue;
+	public int  livesValue;
+    //private int buildScore;
+    //private int buildLives;
+    public int loadlevel = 2; // 2 = level 1, 3 = level 2, 4 = level 3, 5 = Win
     private bool restart;
+    public bool keepScore;
+    public bool keepLives;
+
+    public HighScoreController highscoreScript;
+    //private Transform _transform;
 
     public Text timerLabel;
     public Text finalTimeLabel;
     public float timer;
     [HideInInspector]
     public float bestTime;
+
+    //private AudioSource[] _audioSources;
+   // private AudioSource _portalSound;
+
     //private Animator _animator;
 
+    void Awake()
+    {
+        GameObject highscore = GameObject.FindWithTag("HighScoreController"); //create reference for Player gameobject, and assign the variable via FindWithTag at start
+        if (highscore != null) // if the playerObject gameObject-reference is not null - assigning the reference via FindWithTag at first frame -
+        {
+            highscoreScript = highscore.GetComponent<HighScoreController>();// - set the PlayerController-reference (called playerControllerScript) to the <script component> of the Player gameobject (via the gameObject-reference) to have access the instance of the PlayerController script
+        }
+        if (highscore == null) //for exception handling - to have the console debug the absense of a player controller script in order for this entire code, the code in the GameController to work
+        {
+            Debug.Log("Cannot find ScoreController script for final score referencing to GameOver - finalAcquired Label");
+        }
+    }
 	// Use this for initialization
 	void Start () {
         restart = false;
-		this._SetScore ();
+
+        if (keepScore == true && keepLives == true)
+        {
+            scoreValue = highscoreScript.keepScore;
+            this._SetScoreLives();
+        }
+        else
+        {
+            this._SetScoreLives();
+        }
+
 		this.gameOverLabel.enabled = false; // Hides end game text 
 		this.finalScoreLabel.enabled = false;
 		this.restartLabel.enabled = false;
         this.winLabel.enabled = false;
 
         this.finalTimeLabel.enabled = false;
+        //this._transform = gameObject.GetComponent<Transform>();
+
         //this._animator = gameObject.GetComponent<Animator>();
 
+        //this._audioSources = gameObject.GetComponents<AudioSource>();
+        //this._portalSound = this._audioSources[6];
         
 	}
     public void Timer() // method to update to the current score upon killing enemies or picking up Gold and Silver coins
@@ -60,14 +97,17 @@ public class PlayerCollider : MonoBehaviour {
     }
 	// Update is called once per frame
 	void Update () {
-	        if(restart)
-            {
+	        //if(restart)
+            //{
             if (Input.GetKeyDown(KeyCode.R))
             {
             Application.LoadLevel(Application.loadedLevel);
             }
-		    }
 
+		    //}
+
+
+            
     timer -= Time.deltaTime;
 
     /*if (timer <= 175f)
@@ -96,8 +136,10 @@ public class PlayerCollider : MonoBehaviour {
         {
             bestTime = timer;
             this._WinGame();
+            otherGameObject.GetComponent<AudioSource>().Play();
+           // this._portalSound.playOnAwake = true;
         }
-		this._SetScore ();
+		this._SetScoreLives ();
 	}
 
 	void OnCollisionEnter2D(Collision2D otherGameObject)
@@ -118,25 +160,26 @@ public class PlayerCollider : MonoBehaviour {
                 this._EndGame();
             }
         }
-		this._SetScore ();
+		this._SetScoreLives ();
 	}
 
 	// PRIVATE METHODS
-	private void _SetScore() {
+	private void _SetScoreLives() {
 		this.scoreLabel.text = "Score: " + this.scoreValue;
 		this.livesLabel.text = "Lives: " + this.livesValue;
 	}
 	//ends game displays game over text
 	private void _EndGame() {
-		Destroy(gameObject);
-
-		this.scoreLabel.enabled = false;
+        //gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        gameObject.SetActive(false);
+        this.scoreLabel.enabled = false;
 		this.livesLabel.enabled = false;
 		this.gameOverLabel.enabled = true; // Makes game over, final score, restart text appear when game ends 
 		this.finalScoreLabel.enabled = true;
 		this.restartLabel.enabled = true;
 		this.finalScoreLabel.text = "Final Score: " + this.scoreValue;
 
+        restart = true;
         /*this.finalTimeLabel.text = "Time Left: " + String.Format("{0:0.000}", bestTime);
         this.finalTimeLabel.enabled = true;*/
 
@@ -144,7 +187,7 @@ public class PlayerCollider : MonoBehaviour {
 
     private void _WinGame()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
 
         this.scoreLabel.enabled = false;
         this.livesLabel.enabled = false;
@@ -155,7 +198,15 @@ public class PlayerCollider : MonoBehaviour {
 
         this.finalTimeLabel.text = "Best Time: " + String.Format("{0:0.000}", bestTime);
         this.finalTimeLabel.enabled = true;
+
+        Invoke("_levelLoader",5);
     }
 
+    private void _levelLoader(){
+        keepLives = true;
+        keepScore = true;
+        loadlevel++;
+        Application.LoadLevel(loadlevel);
+    }
 
 }
