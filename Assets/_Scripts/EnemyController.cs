@@ -25,6 +25,17 @@ public class EnemyController : MonoBehaviour {
     private AudioSource _hit;
     private AudioSource _death;
 
+    public bool blackWolf;
+    public Transform target;
+
+    private float _distanceFromTarget;
+    void Awake()
+    {
+        if(blackWolf)
+        {
+            target = GameObject.FindWithTag("Player").transform;
+        }
+    }
     // Use this for initialization
     void Start()
     {
@@ -46,6 +57,27 @@ public class EnemyController : MonoBehaviour {
             Instantiate(shot, shotSpawn.position, shotSpawn.rotation);//instantiate the game object shot per frame at a held key press, set at a vector3 position, at a set quaternion euler (rotation)
             shot.GetComponent<AudioSource>().playOnAwake = true;//upon instantiating the (shot), if the audio isn't playing on awake (on the very first frame), play this audio clip
         }*/
+        if(blackWolf)
+        {
+            this._distanceFromTarget = Vector3.Distance(this._transform.position, this.target.position);
+            Debug.Log(this._distanceFromTarget);
+            if (this._distanceFromTarget < 275)
+            {
+                this.speed = 400f;
+            /*// move towards the target
+            this._transform.position = Vector3.MoveTowards(this._transform.position, target.position, this.speed);
+
+            // look at the target
+            Vector3 targetDir = this.target.position - this._transform.position;
+            Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, this.speed, 0.0F);
+            this._transform.rotation = Quaternion.LookRotation(newDir);*/
+            }
+            else 
+            {
+                this.speed = 200f;
+            }
+        }
+        
     }
     // Update is called once per frame
     void FixedUpdate()
@@ -83,6 +115,16 @@ public class EnemyController : MonoBehaviour {
             this._flip();
         }
 
+        if (otherCollider.gameObject.CompareTag("Black Wolf"))
+        {
+            this._flip();
+        }
+
+        if (otherCollider.gameObject.CompareTag("Turok"))
+        {
+            this._flip();
+        }
+
         if (otherCollider.gameObject.CompareTag("Arrow"))
         {
             Destroy(otherCollider.gameObject);
@@ -92,8 +134,9 @@ public class EnemyController : MonoBehaviour {
             {
                 this._death.Play();
                 this._enemyCollider.isTrigger = true; //so it doesn't check a collision with collision2d - colliding with the player after being hit, let the death animatoin play-out before destroying enemy object
-                speed = 0f;
+                this.speed = 0f;
                 this._animator.SetInteger("AnimState", 1); // play death animation
+                Invoke("_blackWolfDeathAnimationTransition", 0.22f);
                 Destroy(gameObject, 0.8f);
             }
             else
@@ -103,6 +146,14 @@ public class EnemyController : MonoBehaviour {
             }
         }
 
+    }
+
+    private void _blackWolfDeathAnimationTransition()
+    {
+        if (this.gameObject.CompareTag("Black Wolf"))
+        {
+            this.gameObject.transform.position = new Vector2(_transform.position.x, (_transform.position.y - 30));
+        }
     }
 
     void OnCollisionStay2D(Collision2D otherCollider)

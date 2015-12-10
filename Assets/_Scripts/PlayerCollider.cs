@@ -17,13 +17,13 @@ public class PlayerCollider : MonoBehaviour {
 	public Text gameOverLabel;
     public Text winLabel;
 	public Text finalScoreLabel;
-	public Text restartLabel;
+	//public Text restartLabel;
 	public int  scoreValue;
 	public int  livesValue;
     //private int buildScore;
     //private int buildLives;
     public int loadlevel = 2; // 2 = level 1, 3 = level 2, 4 = level 3, 5 = Win
-    private bool restart;
+    //private bool restart;
     public bool keepScore;
     public bool keepLives;
 
@@ -55,7 +55,7 @@ public class PlayerCollider : MonoBehaviour {
     }
 	// Use this for initialization
 	void Start () {
-        restart = false;
+        //restart = false;
 
         if (keepScore == true && keepLives == true)
         {
@@ -69,7 +69,7 @@ public class PlayerCollider : MonoBehaviour {
 
 		this.gameOverLabel.enabled = false; // Hides end game text 
 		this.finalScoreLabel.enabled = false;
-		this.restartLabel.enabled = false;
+		//this.restartLabel.enabled = false;
         this.winLabel.enabled = false;
 
         this.finalTimeLabel.enabled = false;
@@ -160,6 +160,24 @@ public class PlayerCollider : MonoBehaviour {
                 this._EndGame();
             }
         }
+
+        if (otherGameObject.gameObject.CompareTag("Black Wolf"))
+        {
+            this.livesValue--; // remove one life
+            if (this.livesValue <= 0)
+            {
+                this._EndGame();
+            }
+        }
+
+        if (otherGameObject.gameObject.CompareTag("Turok"))
+        {
+            this.livesValue -= 2; // remove one life
+            if (this.livesValue <= 0)
+            {
+                this._EndGame();
+            }
+        }
 		this._SetScoreLives ();
 	}
 
@@ -172,14 +190,16 @@ public class PlayerCollider : MonoBehaviour {
 	private void _EndGame() {
         //gameObject.GetComponent<SpriteRenderer>().enabled = false;
         gameObject.SetActive(false);
+        Application.LoadLevel("Game Over");
+        /*
         this.scoreLabel.enabled = false;
 		this.livesLabel.enabled = false;
 		this.gameOverLabel.enabled = true; // Makes game over, final score, restart text appear when game ends 
 		this.finalScoreLabel.enabled = true;
-		this.restartLabel.enabled = true;
+		//this.restartLabel.enabled = true;
 		this.finalScoreLabel.text = "Final Score: " + this.scoreValue;
 
-        restart = true;
+        //restart = true;
         /*this.finalTimeLabel.text = "Time Left: " + String.Format("{0:0.000}", bestTime);
         this.finalTimeLabel.enabled = true;*/
 
@@ -193,7 +213,7 @@ public class PlayerCollider : MonoBehaviour {
         this.livesLabel.enabled = false;
         this.winLabel.enabled = true; // Makes game over, final score, restart text appear when game ends 
         this.finalScoreLabel.enabled = true;
-        this.restartLabel.enabled = true;
+        //this.restartLabel.enabled = true;
         this.finalScoreLabel.text = "Final Score: " + this.scoreValue;
 
         this.finalTimeLabel.text = "Best Time: " + String.Format("{0:0.000}", bestTime);

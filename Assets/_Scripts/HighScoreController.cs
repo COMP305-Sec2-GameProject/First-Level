@@ -5,6 +5,7 @@ public class HighScoreController : MonoBehaviour {
 
     PlayerCollider playerScript;
     public int keepScore;
+    public int loadLevelIndex;
     void Awake ()
 {
     DontDestroyOnLoad(this);
@@ -24,6 +25,14 @@ public class HighScoreController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        keepScore = playerScript.scoreValue;
+        if(Application.loadedLevelName == "Game Over")
+        {
+            this.keepScore = 0;
+        }
+        else
+        {
+            this.keepScore = playerScript.scoreValue;
+        }
+        this.loadLevelIndex = playerScript.loadlevel;
 	}
 }

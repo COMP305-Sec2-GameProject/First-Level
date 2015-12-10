@@ -56,7 +56,9 @@ public class PlayerController : MonoBehaviour {
 	private float _movingValue = 0;
 	private bool _isFacingRight = true;
 	private bool _isGrounded =true;
-    
+
+    public bool level2;
+    public bool level3;
     /*private SpriteRenderer _portalSprite;
     private BoxCollider2D _portalCollider;*/
 
@@ -84,20 +86,60 @@ public class PlayerController : MonoBehaviour {
 		this._gameOverSound = this._audioSources [4];
         this._shoot = this._audioSources[5];
 
-        this.coinCountLabel.text = "Coins for Portal: " + this.coinCount + "/45";
+        if(level2)
+        {
+            this.coinCountLabel.text = "Coins for Portal: " + this.coinCount + "/65";
+
+        }
+        else if(level3)
+        {
+            this.coinCountLabel.text = "Coins for Portal: " + this.coinCount + "/75";
+        }
+        else
+        {
+            this.coinCountLabel.text = "Coins for Portal: " + this.coinCount + "/45";
+        }
         
 	}
     void Update()
     {
-        if(this.coinCount >= 45)
+        if (level2)
         {
-            this.coinCountLabel.color = Color.blue;
-            /*this._portalSprite.enabled = true;
-            this._portalCollider.enabled = true;*/
-            this.portal.SetActive(true);
-            this.portal.GetComponent<AudioSource>().Play();
-            Debug.Log(this.portal.activeInHierarchy);
+            if (this.coinCount >= 65)
+            {
+                this.coinCountLabel.color = Color.blue;
+                /*this._portalSprite.enabled = true;
+                this._portalCollider.enabled = true;*/
+                this.portal.SetActive(true);
+                this.portal.GetComponent<AudioSource>().Play();
+                Debug.Log(this.portal.activeInHierarchy);
+            }
         }
+        else if (level3)
+        {
+            if (this.coinCount >= 75)
+            {
+                this.coinCountLabel.color = Color.blue;
+                /*this._portalSprite.enabled = true;
+                this._portalCollider.enabled = true;*/
+                this.portal.SetActive(true);
+                this.portal.GetComponent<AudioSource>().Play();
+                Debug.Log(this.portal.activeInHierarchy);
+            }
+        }
+        else
+        {
+            if (this.coinCount >= 45)
+            {
+                this.coinCountLabel.color = Color.blue;
+                /*this._portalSprite.enabled = true;
+                this._portalCollider.enabled = true;*/
+                this.portal.SetActive(true);
+                this.portal.GetComponent<AudioSource>().Play();
+                Debug.Log(this.portal.activeInHierarchy);
+            }
+        }
+        
     }
 	// Update is called once per frame
 	void FixedUpdate () {
@@ -217,6 +259,16 @@ public class PlayerController : MonoBehaviour {
             this._animator.SetInteger("AnimState", 2);
             this._hitSound.Play(); //play hit sound
         }
+        if (otherGameObject.gameObject.CompareTag("Black Wolf"))
+        {
+            this._animator.SetInteger("AnimState", 2);
+            this._hitSound.Play(); //play hit sound
+        }
+        if (otherGameObject.gameObject.CompareTag("Turok"))
+        {
+            this._animator.SetInteger("AnimState", 2);
+            this._hitSound.Play(); //play hit sound
+        }
 	}
 
 
@@ -230,7 +282,19 @@ public class PlayerController : MonoBehaviour {
 
     public void setCoinCount()
     {
-           this.coinCountLabel.text = "Coins to Unlock Portal: " + this.coinCount + "/45";
+        if (level2)
+        {
+            this.coinCountLabel.text = "Coins for Portal: " + this.coinCount + "/65";
+
+        }
+        else if (level3)
+        {
+            this.coinCountLabel.text = "Coins for Portal: " + this.coinCount + "/75";
+        }
+        else
+        {
+            this.coinCountLabel.text = "Coins for Portal: " + this.coinCount + "/45";
+        }
     }
 	//flips player sprite
 	private void _flip(){
