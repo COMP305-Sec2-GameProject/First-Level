@@ -26,6 +26,7 @@ public class EnemyController : MonoBehaviour {
     private AudioSource _death;
 
     public bool blackWolf;
+    public bool Turok;
     public Transform target;
 
     private float _distanceFromTarget;
@@ -63,7 +64,10 @@ public class EnemyController : MonoBehaviour {
             Debug.Log(this._distanceFromTarget);
             if (this._distanceFromTarget < 275)
             {
-                this.speed = 400f;
+                if(hit > 0) //in order to stop Black Wolf from speeding off during Death animation
+                {
+                    this.speed = 400f;
+                }
             /*// move towards the target
             this._transform.position = Vector3.MoveTowards(this._transform.position, target.position, this.speed);
 
@@ -117,12 +121,64 @@ public class EnemyController : MonoBehaviour {
 
         if (otherCollider.gameObject.CompareTag("Black Wolf"))
         {
-            this._flip();
+            if(Turok)
+            {
+                if (this.gameObject.transform.localScale == new Vector3 (1,1,1))
+                {
+                    this._flip();
+                    this.gameObject.transform.position = new Vector2((_transform.position.x + 100),_transform.position.y);
+                }
+                else if (this.gameObject.transform.localScale == new Vector3(-1, 1, 1))
+                {
+                    this._flip();
+                    this.gameObject.transform.position = new Vector2((_transform.position.x - 100), _transform.position.y);
+                }
+                
+            }
+            else
+            {
+                if (this.gameObject.transform.localScale == new Vector3(1, 1, 1))
+                {
+                    this._flip();
+                    this.gameObject.transform.position = new Vector2((_transform.position.x + 50), _transform.position.y);
+                }
+                else if (this.gameObject.transform.localScale == new Vector3(-1, 1, 1))
+                {
+                    this._flip();
+                    this.gameObject.transform.position = new Vector2((_transform.position.x - 50), _transform.position.y);
+                }
+            }
+
         }
 
         if (otherCollider.gameObject.CompareTag("Turok"))
         {
-            this._flip();
+            if (blackWolf)
+            {
+                if (this.gameObject.transform.localScale == new Vector3(1, 1, 1))
+                {
+                    this._flip();
+                    this.gameObject.transform.position = new Vector2((_transform.position.x + 100), _transform.position.y);
+                }
+                else if (this.gameObject.transform.localScale == new Vector3(-1, 1, 1))
+                {
+                    this._flip();
+                    this.gameObject.transform.position = new Vector2((_transform.position.x - 100), _transform.position.y);
+                }
+            }
+            else
+            {
+                if (this.gameObject.transform.localScale.x == 1) //CHANGE IT TO THIS AND NOW IT WORKS...OKAY...
+                {
+                    this._flip(); //TUROK WILL NOT FLIP WITH ANOTHER TUROK IF LOCAL SCALE EQUAL 1(RIGHT) - THIS WHOLE CODE DOESN'T EXECUTE AT ALL
+                    this.gameObject.transform.position = new Vector2((_transform.position.x + 100), _transform.position.y);
+                }
+                else if (this.gameObject.transform.localScale == new Vector3(-1, 1, 1))
+                {
+                    this._flip();
+                    this.gameObject.transform.position = new Vector2((_transform.position.x - 100), _transform.position.y);
+                }
+            }
         }
 
         if (otherCollider.gameObject.CompareTag("Arrow"))
@@ -136,8 +192,12 @@ public class EnemyController : MonoBehaviour {
                 this._enemyCollider.isTrigger = true; //so it doesn't check a collision with collision2d - colliding with the player after being hit, let the death animatoin play-out before destroying enemy object
                 this.speed = 0f;
                 this._animator.SetInteger("AnimState", 1); // play death animation
-                Invoke("_blackWolfDeathAnimationTransition", 0.22f);
-                Destroy(gameObject, 0.8f);
+                this._rigidbody2D.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+                if(blackWolf)
+                {
+                    Invoke("_blackWolfDeathAnimationTransition", 0.21f);
+                }
+                Destroy(gameObject, 0.85f);
             }
             else
             {
@@ -162,6 +222,26 @@ public class EnemyController : MonoBehaviour {
         {
             this._isGrounded = true;
         }
+
+        if(blackWolf)
+        {
+            if (otherCollider.gameObject.CompareTag("Player"))
+            {
+                //this.gameObject.transform.position.y = new Vector2(stopX, stopY);
+                this._rigidbody2D.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+                this._enemyCollider.isTrigger = true;
+            }
+        }
+        if (Turok)
+        {
+            if (otherCollider.gameObject.CompareTag("Player"))
+            {
+                //this.gameObject.transform.position.y = new Vector2(stopX, stopY);
+                this._rigidbody2D.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+                this._enemyCollider.isTrigger = true;
+            }
+        }
+        
     }
 
     void OnTriggerStay2D(Collider2D otherCollider)
@@ -184,7 +264,33 @@ public class EnemyController : MonoBehaviour {
     {
         if (otherCollider.gameObject.CompareTag("Platform"))
         {
-            this._isGrounded = false;
+            this._isGrounded = true;
+        }
+
+        if (blackWolf)
+        {
+            if (otherCollider.gameObject.CompareTag("Player"))
+            {
+                //this.gameObject.transform.position.y = new Vector2(stopX, stopY);
+                if(hit > 0)
+                {
+                    this._enemyCollider.isTrigger = false;
+                }
+                this._rigidbody2D.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
+            }
+        }
+
+        if (Turok)
+        {
+            if (otherCollider.gameObject.CompareTag("Player"))
+            {
+                //this.gameObject.transform.position.y = new Vector2(stopX, stopY);
+                if (hit > 0)
+                {
+                    this._enemyCollider.isTrigger = false;
+                } 
+                this._rigidbody2D.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
+            }
         }
     }
     // PRIVATE METHODS

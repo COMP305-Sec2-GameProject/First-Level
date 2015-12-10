@@ -277,7 +277,6 @@ public class PlayerController : MonoBehaviour {
 		if (otherCollider.gameObject.CompareTag ("Platform")) {
 			this._isGrounded = true;
 		}
-
 	}
 
     public void setCoinCount()
