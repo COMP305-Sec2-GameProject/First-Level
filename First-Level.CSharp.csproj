@@ -68,6 +68,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\ChestController.cs" />
+    <Compile Include="Assets\SpawnChests.cs" />
     <Compile Include="Assets\_Scripts\CoinController.cs" />
     <Compile Include="Assets\_Scripts\DeathTrigger.cs" />
     <Compile Include="Assets\_Scripts\EnemyController.cs" />

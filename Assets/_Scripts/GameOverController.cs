@@ -12,8 +12,10 @@ public class GameOverController : MonoBehaviour {
     public GameObject platform;
     public Material newMatLevel2;
     public Sprite level2Platform;
+    public EdgeCollider2D lvl2Platform;
     void Awake()
     {
+        this.lvl2Platform.isTrigger = true;
         GameObject highscore = GameObject.FindWithTag("HighScoreController"); //create reference for Player gameobject, and assign the variable via FindWithTag at start
         if (highscore != null) // if the playerObject gameObject-reference is not null - assigning the reference via FindWithTag at first frame -
         {
@@ -26,6 +28,7 @@ public class GameOverController : MonoBehaviour {
 
         if(highscoreScript.loadLevelIndex == 3)
         {
+            this.lvl2Platform.isTrigger = false;
             background.GetComponent<Renderer>().material = newMatLevel2;
             platform.GetComponent<SpriteRenderer>().sprite = level2Platform;
             platform.GetComponent<Transform>().transform.localScale = new Vector3(1.5f, 1.5f,1);
@@ -46,7 +49,15 @@ public class GameOverController : MonoBehaviour {
 
     public void OnRestartButtonClick()
     {
-        highscoreScript.keepScore = 0;
+        if(loadSameLevel == 2)
+        {
+            Destroy(highscoreScript);
+        }
+        else
+        {
+            highscoreScript.keepScore = 0;
+        }
+
         Application.LoadLevel(this.loadSameLevel);
     }
 
