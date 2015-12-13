@@ -7,7 +7,7 @@ public class GameOverController : MonoBehaviour {
     HighScoreController highscoreScript;
     public Text finalScoreLabel;
     private int loadSameLevel;
-    
+    public GameObject highscore;
     public GameObject background;
     public GameObject platform;
     public Material newMatLevel2;
@@ -16,7 +16,7 @@ public class GameOverController : MonoBehaviour {
     void Awake()
     {
         this.lvl2Platform.isTrigger = true;
-        GameObject highscore = GameObject.FindWithTag("HighScoreController"); //create reference for Player gameobject, and assign the variable via FindWithTag at start
+        highscore = GameObject.FindWithTag("HighScoreController"); //create reference for Player gameobject, and assign the variable via FindWithTag at start
         if (highscore != null) // if the playerObject gameObject-reference is not null - assigning the reference via FindWithTag at first frame -
         {
             highscoreScript = highscore.GetComponent<HighScoreController>();// - set the PlayerController-reference (called playerControllerScript) to the <script component> of the Player gameobject (via the gameObject-reference) to have access the instance of the PlayerController script
@@ -51,7 +51,7 @@ public class GameOverController : MonoBehaviour {
     {
         if(loadSameLevel == 2)
         {
-            Destroy(highscoreScript);
+            Destroy(highscore);
         }
         else
         {

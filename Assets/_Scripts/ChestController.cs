@@ -39,14 +39,13 @@ public class ChestController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
 	}
 
     void OnTriggerEnter2D(Collider2D otherCollider)
     {
-            if (otherCollider.gameObject.CompareTag("Arrow"))
+            if (otherCollider.gameObject.CompareTag("Player"))
             {
-                Destroy(otherCollider.gameObject);
+                //Destroy(otherCollider.gameObject);
                 //enemy hit sound
                     this._chestCollider.enabled = false; //so it doesn't check a collision with collision2d - colliding with the player after being hit, let the death animatoin play-out before destroying enemy object
                     this._animator.SetInteger("AnimState", 1); // play death animation
@@ -60,6 +59,42 @@ public class ChestController : MonoBehaviour {
                 Destroy(gameObject, 1.4f);
              }
      }
+    void OnTriggerStay2D (Collider2D otherCollider)
+    {
+        if (otherCollider.gameObject.CompareTag("Arrow"))
+        {
+            Destroy(otherCollider.gameObject);
+            //enemy hit sound
+            this._chestCollider.enabled = false; //so it doesn't check a collision with collision2d - colliding with the player after being hit, let the death animatoin play-out before destroying enemy object
+            this._animator.SetInteger("AnimState", 1); // play death animation
+            this._rigidbody2D.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+            for (int i = 0; i < 5; i++)
+            {
+                this._coins.Play();
+                playerScript.coinCount += 1;
+                playerScript.setCoinCount();
+            }
+            Destroy(gameObject, 1.4f);
+        }
+    }
+    /*void OnTriggerExit2D(Collider2D otherCollider)
+    {
+        if (otherCollider.gameObject.CompareTag("Arrow"))
+        {
+            Destroy(otherCollider.gameObject);
+            //enemy hit sound
+            this._chestCollider.enabled = false; //so it doesn't check a collision with collision2d - colliding with the player after being hit, let the death animatoin play-out before destroying enemy object
+            this._animator.SetInteger("AnimState", 1); // play death animation
+            this._rigidbody2D.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+            for (int i = 0; i < 5; i++)
+            {
+                this._coins.Play();
+                playerScript.coinCount += 1;
+                playerScript.setCoinCount();
+            }
+            Destroy(gameObject, 1.4f);
+        }
+    }*/
 }
     
 

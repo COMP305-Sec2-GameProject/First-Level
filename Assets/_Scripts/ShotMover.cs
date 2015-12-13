@@ -45,4 +45,13 @@ public class ShotMover : MonoBehaviour {
             Destroy(blast);
         }
     }*/
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.tag == "Chest")
+        {
+            Destroy(other);
+            Destroy(gameObject);
+        }
+    }
 }
