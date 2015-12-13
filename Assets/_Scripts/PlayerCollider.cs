@@ -99,10 +99,10 @@ public class PlayerCollider : MonoBehaviour {
 	void Update () {
 	        //if(restart)
             //{
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-            Application.LoadLevel(Application.loadedLevel);
-            }
+            //if (Input.GetKeyDown(KeyCode.R))
+            //{
+            //Application.LoadLevel(Application.loadedLevel);
+            //}
 
 		    //}
 

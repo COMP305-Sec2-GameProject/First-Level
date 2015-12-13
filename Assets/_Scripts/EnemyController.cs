@@ -9,7 +9,6 @@ public class EnemyController : MonoBehaviour {
 
     //public Transform sightStart;
     public Transform sightEnd;
-
     //public GameObject shot;
     //public Transform shotSpawn; //this variable is a refernece of the game object Shot Spawn but the variable type only references its transform component
 
@@ -61,7 +60,7 @@ public class EnemyController : MonoBehaviour {
         if(blackWolf)
         {
             this._distanceFromTarget = Vector3.Distance(this._transform.position, this.target.position);
-            Debug.Log(this._distanceFromTarget);
+            //Debug.Log(this._distanceFromTarget);
             if (this._distanceFromTarget < 275)
             {
                 if(hit > 0) //in order to stop Black Wolf from speeding off during Death animation
@@ -92,11 +91,33 @@ public class EnemyController : MonoBehaviour {
             this._animator.SetInteger("AnimState", 0); // play walking animation -
             this._rigidbody2D.velocity = new Vector2(this._transform.localScale.x, 0) * -this.speed; // and have enemy's velocity go forward by speed
 
-            this._isGroundAhead = Physics2D.Linecast(_transform.position, this.sightEnd.position, 1 << LayerMask.NameToLayer("Ground")); // linecast between enemy's transform and the ground's - returns a boolean value
-            Debug.DrawLine(_transform.position, this.sightEnd.position);
+            this._isGroundAhead = Physics2D.Linecast(this._transform.position, this.sightEnd.position, 1 << LayerMask.NameToLayer("Ground")); // linecast between enemy's transform and the ground's - returns a boolean value
+            Debug.DrawLine(this._transform.position, this.sightEnd.position);
 
             if (this._isGroundAhead == false) // when the line cast is past the end position of the ground layer == false
             {
+                /*if(blackWolf)
+                {
+                    if (this._transform.localScale.x == 1)
+                    {
+                        this.gameObject.transform.position = new Vector2((_transform.position.x + 100), _transform.position.y);
+                    }
+                    else
+                    {
+                        this.gameObject.transform.position = new Vector2((_transform.position.x - 100), _transform.position.y);
+                    }
+                }
+                if (Turok)
+                {
+                    if (this._transform.localScale.x == 1)
+                    {
+                        this.gameObject.transform.position = new Vector2((_transform.position.x + 150), _transform.position.y);
+                    }
+                    else
+                    {
+                        this.gameObject.transform.position = new Vector2((_transform.position.x - 150), _transform.position.y);
+                    }
+                }*/
                 this._flip(); // flip enemy local scale (invert sprite and gameobject's direction)
             }
 
@@ -121,7 +142,7 @@ public class EnemyController : MonoBehaviour {
 
         if (otherCollider.gameObject.CompareTag("Black Wolf"))
         {
-            if(Turok)
+            /*if(Turok)
             {
                 if (this.gameObject.transform.localScale == new Vector3 (1,1,1))
                 {
@@ -147,13 +168,14 @@ public class EnemyController : MonoBehaviour {
                     this._flip();
                     this.gameObject.transform.position = new Vector2((_transform.position.x - 50), _transform.position.y);
                 }
-            }
+            }*/
+            this._flip();
 
         }
 
         if (otherCollider.gameObject.CompareTag("Turok"))
         {
-            if (blackWolf)
+            /*if (blackWolf)
             {
                 if (this.gameObject.transform.localScale == new Vector3(1, 1, 1))
                 {
@@ -178,7 +200,8 @@ public class EnemyController : MonoBehaviour {
                     this._flip();
                     this.gameObject.transform.position = new Vector2((_transform.position.x - 100), _transform.position.y);
                 }
-            }
+            }*/
+            this._flip();
         }
 
         if (otherCollider.gameObject.CompareTag("Arrow"))
@@ -195,12 +218,22 @@ public class EnemyController : MonoBehaviour {
                 this._rigidbody2D.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
                 if(blackWolf)
                 {
-                    Invoke("_blackWolfDeathAnimationTransition", 0.21f);
+                    Invoke("_DeathAnimationTransition", 0.185f);
                 }
                 Destroy(gameObject, 0.85f);
             }
             else
             {
+                if (blackWolf)
+                {
+                    Invoke("_HitAnimationTransition", 0.06f);
+                    Invoke("_HitAnimationReset", 0.23f);
+                }
+                else if (Turok)
+                {
+                    Invoke("_HitAnimationTransition", 0.0205f);
+                    Invoke("_HitAnimationReset", 0.199f);
+                }
                 this._hit.Play();
                 this._animator.SetInteger("AnimState", 2); // play hit animation
             }
@@ -208,11 +241,40 @@ public class EnemyController : MonoBehaviour {
 
     }
 
-    private void _blackWolfDeathAnimationTransition()
+    private void _DeathAnimationTransition()
     {
         if (this.gameObject.CompareTag("Black Wolf"))
         {
             this.gameObject.transform.position = new Vector2(_transform.position.x, (_transform.position.y - 30));
+        }
+    }
+
+    private void _HitAnimationTransition()
+    {
+        if (this.gameObject.CompareTag("Black Wolf"))
+        {
+            this._rigidbody2D.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+            this.gameObject.transform.position = new Vector2(_transform.position.x, (_transform.position.y - 20));
+        }
+
+        if (this.gameObject.CompareTag("Turok"))
+        {
+            this._rigidbody2D.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+            this.gameObject.transform.position = new Vector2(_transform.position.x, (_transform.position.y - 55));
+        }
+    }
+    private void _HitAnimationReset()
+    {
+        if (this.gameObject.CompareTag("Black Wolf"))
+        {
+            this._rigidbody2D.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
+            this.gameObject.transform.position = new Vector2(_transform.position.x, (_transform.position.y + 20));
+        }
+
+        if (this.gameObject.CompareTag("Turok"))
+        {
+            this._rigidbody2D.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
+            this.gameObject.transform.position = new Vector2(_transform.position.x, (_transform.position.y + 55));
         }
     }
 
@@ -298,10 +360,26 @@ public class EnemyController : MonoBehaviour {
     {
         if (this._transform.localScale.x == 1)
         {
+            if(blackWolf)
+            {
+                this.gameObject.transform.position = new Vector2((_transform.position.x + 100), _transform.position.y);
+            }
+            if (Turok)
+            {
+                this.gameObject.transform.position = new Vector2((_transform.position.x + 150), _transform.position.y);
+            }
             this._transform.localScale = new Vector3(-1f, 1f, 1f);
         }
         else
         {
+            if (blackWolf)
+            {
+                this.gameObject.transform.position = new Vector2((_transform.position.x - 100), _transform.position.y);
+            }
+            if (Turok)
+            {
+                this.gameObject.transform.position = new Vector2((_transform.position.x - 150), _transform.position.y);
+            }
             this._transform.localScale = new Vector3(1f, 1f, 1f); // reset to normal scale
         }
     }

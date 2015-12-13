@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour {
     public float fireRate; // = 0.25 --> shoots 4 times a second --> 1/0.25
     private float nextFire; // = 0 
 
+    public GameObject arrow2;
+
     public GameObject portal;
     public Transform portalSpawn;
 
@@ -59,6 +61,8 @@ public class PlayerController : MonoBehaviour {
 
     public bool level2;
     public bool level3;
+    private bool dimLights = false;
+    public Light light;
     /*private SpriteRenderer _portalSprite;
     private BoxCollider2D _portalCollider;*/
 
@@ -93,7 +97,7 @@ public class PlayerController : MonoBehaviour {
         }
         else if(level3)
         {
-            this.coinCountLabel.text = "Coins for Portal: " + this.coinCount + "/75";
+            this.coinCountLabel.text = "Coins for Portal: " + this.coinCount + "/85";
         }
         else
         {
@@ -117,7 +121,7 @@ public class PlayerController : MonoBehaviour {
         }
         else if (level3)
         {
-            if (this.coinCount >= 75)
+            if (this.coinCount >= 85)
             {
                 this.coinCountLabel.color = Color.blue;
                 /*this._portalSprite.enabled = true;
@@ -139,7 +143,14 @@ public class PlayerController : MonoBehaviour {
                 Debug.Log(this.portal.activeInHierarchy);
             }
         }
-        
+
+        if(dimLights)
+        {
+            if (this.light != null)
+            {
+                this.light.intensity -= 0.025f;
+            }
+        }
     }
 	// Update is called once per frame
 	void FixedUpdate () {
@@ -246,6 +257,11 @@ public class PlayerController : MonoBehaviour {
 		if (otherGameObject.tag == "Death") {
 			this._gameOverSound.Play ();
 		}
+
+        if(otherGameObject.tag == "Dim")
+        {
+            this.dimLights = true;
+        }
 	}
 
 	void OnCollisionEnter2D(Collision2D otherGameObject)
@@ -288,7 +304,7 @@ public class PlayerController : MonoBehaviour {
         }
         else if (level3)
         {
-            this.coinCountLabel.text = "Coins for Portal: " + this.coinCount + "/75";
+            this.coinCountLabel.text = "Coins for Portal: " + this.coinCount + "/85";
         }
         else
         {
