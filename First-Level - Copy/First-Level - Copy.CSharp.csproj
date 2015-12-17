@@ -62,7 +62,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\PlatformScroller.cs" />
     <Compile Include="Assets\_Scripts\ChestController.cs" />
     <Compile Include="Assets\_Scripts\CoinController.cs" />
     <Compile Include="Assets\_Scripts\DeathTrigger.cs" />
@@ -73,6 +72,7 @@
     <Compile Include="Assets\_Scripts\HighScoreController.cs" />
     <Compile Include="Assets\_Scripts\MenuController.cs" />
     <Compile Include="Assets\_Scripts\PlatformFall.cs" />
+    <Compile Include="Assets\_Scripts\PlatformScroller.cs" />
     <Compile Include="Assets\_Scripts\PlayerCollider.cs" />
     <Compile Include="Assets\_Scripts\PlayerController.cs" />
     <Compile Include="Assets\_Scripts\ShotMover.cs" />
