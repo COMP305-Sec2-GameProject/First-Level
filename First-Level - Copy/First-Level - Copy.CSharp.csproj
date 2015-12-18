@@ -87,5 +87,13 @@
     <Compile Include="Assets\_Scripts\WallCollision.cs" />
     <Compile Include="Assets\_Scripts\WinController.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Sprites\Platforms &amp; Aesthetics\Aesthetics\LvL 3\Level3Grass+Bush\Level3Bush\data.xml" />
+    <None Include="Assets\Sprites\Platforms &amp; Aesthetics\Aesthetics\LvL 3\Level3Grass+Bush\Level3Grass\data.xml" />
+    <None Include="Assets\Sprites\Platforms &amp; Aesthetics\Aesthetics\LvL 3\Level3GrassA\data.xml" />
+    <None Include="Assets\Sprites\Platforms &amp; Aesthetics\Aesthetics\LvL 3\Level3Statue\data.xml" />
+    <None Include="Assets\Sprites\Platforms &amp; Aesthetics\Aesthetics\LvL 3\Level3TreesA\data.xml" />
+    <None Include="Assets\Sprites\Platforms &amp; Aesthetics\Aesthetics\LvL 3\Level3TreesB\data.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>
